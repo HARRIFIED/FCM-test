@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "983416415700",
+    "project_id": "notificaton-d4ad4",
+    "storage_bucket": "notificaton-d4ad4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983416415700:android:51f13bb4f5702b84072241",
+        "android_client_info": {
+          "package_name": "com.notification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX54X-evsuS4szvH5KyJSpRrC2LKW4MHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
