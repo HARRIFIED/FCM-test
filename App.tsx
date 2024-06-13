@@ -58,16 +58,6 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
       }
     };
     requestUserPermission();
-
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
-    });
-
-    return unsubscribe;
   }, []);
 
   useEffect(() => {
