@@ -60,11 +60,6 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
     requestUserPermission();
   }, []);
 
-  useEffect(() => {
-    messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-  }, []);
   return (
     <View style={styles.sectionContainer}>
       <Text
