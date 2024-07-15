@@ -18,6 +18,7 @@ import {
   Platform,
   PermissionsAndroid,
 } from 'react-native';
+import BootSplash from 'react-native-bootsplash';
 
 import {
   Colors,
@@ -31,34 +32,10 @@ import messaging from '@react-native-firebase/messaging';
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+type hide = (config?: { fade?: boolean }) => Promise<void>;
 
 function Section({ children, title }: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
-  useEffect(() => {
-    const requestUserPermission = async () => {
-      try {
-        if (Platform.OS === 'android') {
-          await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-        }
-
-        messaging().registerDeviceForRemoteMessages();
-        const authStatus = await messaging().requestPermission();
-        const enabled =
-          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-        if (enabled) {
-          console.log('Authorization status:', authStatus);
-          const token = await messaging().getToken();
-          console.log('FCM token:', token);
-        }
-      } catch (error) {
-        console.error('Error requesting permission:', error);
-      }
-    };
-    requestUserPermission();
-  }, []);
 
   return (
     <View style={styles.sectionContainer}>
@@ -85,6 +62,39 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
 }
 
 function App(): React.JSX.Element {
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+      const requestUserPermission = async () => {
+        try {
+          if (Platform.OS === 'android') {
+            await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+          }
+
+          messaging().registerDeviceForRemoteMessages();
+          const authStatus = await messaging().requestPermission();
+          const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+          if (enabled) {
+            console.log('Authorization status:', authStatus);
+            const token = await messaging().getToken();
+            console.log('FCM token:', token);
+          }
+        } catch (error) {
+          console.error('Error requesting permission:', error);
+        }
+      };
+      requestUserPermission();
+    };
+    init().catch(err => console.log('Something went wrong', err));
+    init().finally(async () => {
+      await BootSplash.hide({ fade: true });
+      console.log('BootSplash has been hidden successfully');
+    });
+  }, []);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
